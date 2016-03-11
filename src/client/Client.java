@@ -18,7 +18,7 @@ public class Client
 		
 		//add loginPanel to the frame
 		clientFrame.add(myLoginScreen.loginPanel);
-		
+		myLoginScreen.loginPanel.setVisible(false);
 		//set frame visibility to true
 		clientFrame.setVisible(true);
 	}

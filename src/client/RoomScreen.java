@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.GridLayout;
+import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -17,25 +18,18 @@ import javax.swing.JPanel;
  * RoomLine
  */
 
-public class RoomScreen extends JFrame 
+public class RoomScreen extends JPanel
 {
 	private RoomList roomList = new RoomList();
 	private RoomLine first = null;
+	private JButton newButton;
 	
 	public RoomScreen() {
-		super("TEST");
-		RoomList test = new RoomList();
-		this.add(test );
-		test.addRoom("TEST", 5);
-		test.addRoom("TEST1", 6);
-		test.addRoom("TEST3", 45);
-		//test.addRoom("TT", 24);
-		test.addRoom("TEST43245", 24352);
-		this.setVisible(true);
-		this.setSize(500,500);
-		test.RemovePopRoom("TEST");
+		roomList = new RoomList();
+		newButton = new JButton("New Chat Room");
+		add(newButton, BorderLayout.SOUTH);
 		
-		test.reDo();
+		
 	}
 	
 	private class RoomList extends JPanel 
@@ -157,7 +151,7 @@ public class RoomScreen extends JFrame
 	{
 		private String name;	//the name of the room to be displayed
 		private int pop;		//the population of the room
-		private JLabel label;
+		private JLabel nameLabel, popLabel;
 		private JButton button;
 		private ActionListener listener;
 		private RoomLine next = null;
@@ -169,16 +163,18 @@ public class RoomScreen extends JFrame
 		 * number = the amount of people in the room
 		 */
 		public RoomLine (String iName, int number) {
-			this.setLayout(new GridLayout(1,2));	//set a grid layout
+			this.setLayout(new GridLayout(1,3));	//set a grid layout
 			
 			//set up the private variables
 			name = iName;
 			pop = number;
 			
 			//make the JLabel
-			label = new JLabel("");
-			update();				//sets the data into the label
-			add(label);
+			nameLabel = new JLabel(iName);
+			popLabel = new JLabel("");
+			popLabel.setText("" + pop);	
+			add(nameLabel);
+			add(popLabel);
 			
 			//set up the button
 			button = new JButton("JOIN");
@@ -197,7 +193,7 @@ public class RoomScreen extends JFrame
 		public void addPop() 
 		{
 			pop++;
-			update();
+			popLabel.setText("" + pop);
 		} //end of function
 		
 		/*
@@ -209,17 +205,9 @@ public class RoomScreen extends JFrame
 		public void decPop() 
 		{
 			pop--;
-			update();
+			popLabel.setText("" + pop);
 		} //end of function
 		
-		/*
-		 * update
-		 * This method updates the display of this object
-		 */
-		public void update() {
-			label.setText(String.format("%-25s %-5d", name, pop));
-			this.validate();
-		} //end of method
 		
 		//returns the name of the room this class is for.
 		public String getName() {
@@ -227,10 +215,7 @@ public class RoomScreen extends JFrame
 		} //end of method
 	} //end of class RoomLine
 	
-	public static void main(String args[]) {
-		new RoomScreen();
-		
-	}
+	
 	
 	
 } //end of class

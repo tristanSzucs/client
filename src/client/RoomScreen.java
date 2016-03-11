@@ -17,6 +17,8 @@ public class RoomScreen extends JPanel
 		//the constructor
 		public RoomList() {
 			
+			
+			
 		}
 	}
 	
@@ -84,6 +86,11 @@ public class RoomScreen extends JPanel
 		 */
 		public void update() {
 			label.setText(String.format("%15s %5d", name, pop));
+		}
+		
+		//returns the name of the room this class is for.
+		public String getName() {
+			return name;
 		}
 	}
 }

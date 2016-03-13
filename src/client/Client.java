@@ -1,5 +1,7 @@
 package client;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 
 public class Client 
@@ -17,8 +19,9 @@ public class Client
 		LoginScreen myLoginScreen = new LoginScreen();
 		
 		//add loginPanel to the frame
+		
 		clientFrame.add(myLoginScreen.loginPanel);
-		myLoginScreen.loginPanel.setVisible(false);
+		myLoginScreen.loginPanel.setVisible(true);
 		//set frame visibility to true
 		clientFrame.setVisible(true);
 	}

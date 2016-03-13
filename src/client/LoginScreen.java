@@ -1,5 +1,6 @@
 package client;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -7,9 +8,12 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class LoginScreen
+
+
+public class LoginScreen 
 {
 
+	
 	private JTextField usernameField, passwordField;
 	private JButton createNewUserButton, loginButton;
 	public JPanel loginPanel = new JPanel();
@@ -26,11 +30,15 @@ public class LoginScreen
 		usernameField = new JTextField(15);
 		passwordField = new JTextField(15);
 		
+		
+		
 		//add following components to loginPanel
 		loginPanel.add(usernameField);
 		loginPanel.add(passwordField);
 		loginPanel.add(createNewUserButton);
 		loginPanel.add(loginButton);
+		
+		
 		
 		//define myListener
 		ActionListener myListener = new ActionListener()
@@ -66,8 +74,26 @@ public class LoginScreen
 						}
 						else if(currentAction.getSource() == loginButton)
 						{
+							
+							String user = usernameField.getText();
+							String pass = passwordField.getText();
 							//send signal to server with login info
-							System.out.println("Login pressed");
+							
+							//if (server says so)
+							canLogin = true;
+							
+							if(canLogin)
+							{
+								System.out.println("Logged in");
+							}
+							else if(!canLogin)
+							{
+								System.err.println("Incorrect Password");
+								
+								passwordField.setText("");
+							}
+							
+							
 						}
 						else
 						{
@@ -82,6 +108,8 @@ public class LoginScreen
 		loginButton.addActionListener(myListener);
 		
 	}
+	
+	
 
 	
 

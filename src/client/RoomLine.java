@@ -44,7 +44,7 @@ public class RoomLine extends JPanel
 		add(popLabel);
 		listener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clientFrame.changeToChatRoom(e.getActionCommand());
+				clientFrame.changeToChatRoom(name);
 			}
 		};
 		//set up the button

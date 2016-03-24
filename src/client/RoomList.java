@@ -3,14 +3,14 @@ package client;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JLabel;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 
 public class RoomList extends JPanel 
 {
+	private Client client;
 	private RoomLine first;
 	private Boolean active = true;
 	private Timer reDraw = new Timer(2000, new ActionListener() {
@@ -20,13 +20,16 @@ public class RoomList extends JPanel
 	         reDo();
 	      }
 	});
+	
+	
 	//the constructor
-	public RoomList() {
+	public RoomList(Client clientFrame) {
+		client = clientFrame;
 		this.setLayout(new GridLayout(10,1));
 		this.setVisible(true);
 		this.addRoom("Fire", 0);
 		this.addRoom("Fire", 0);
-		
+		this.AddPopRoom("Fire");
 		this.addRoom("Fire", 0);
 		this.addRoom("Fire", 0);
 		reDraw.start();
@@ -37,9 +40,9 @@ public class RoomList extends JPanel
 	/*
 	 * Adds a room based on Init pop and name
 	 */
-	public void addRoom(String name, int pop) {
+	public synchronized void addRoom(String name, int pop) {
 		//creates the room to add
-		RoomLine toAdd = new RoomLine(name, pop);
+		RoomLine toAdd = new RoomLine(name, pop, client);
 		//adds it to the GUI
 		
 		//if the list is empty make it the first
@@ -59,7 +62,7 @@ public class RoomList extends JPanel
 	/*
 	 * This method removes the room based on the name
 	 */
-	public void RemoveRoom(String name) {
+	public synchronized void RemoveRoom(String name) {
 		//if there is none then nothing happens
 		if(first == null) {
 			return;
@@ -83,7 +86,7 @@ public class RoomList extends JPanel
 	/*
 	 * THis method takes in a string name and adds a pop to it
 	 */
-	public void AddPopRoom(String name) {
+	public synchronized void AddPopRoom(String name) {
 		//if it is empty then return
 		if(first == null) {
 			return;
@@ -104,7 +107,7 @@ public class RoomList extends JPanel
 	 * This method removes this line if a room by the name is found
 	 * If not found it is not removed.
 	 */
-	public void RemovePopRoom(String name) {
+	public synchronized void RemovePopRoom(String name) {
 		//if it is empty then return
 		if(first == null) {
 			return;
@@ -123,18 +126,17 @@ public class RoomList extends JPanel
 	/*
 	 * This function removes all lines and puts them back on.
 	 */
-	public void reDo() {
+	private synchronized void reDo() {
 		removeAll();
 		RoomLine cur = first;
 		while(cur != null) {
 			add(cur);
 			cur = cur.next;
 		}
-		System.out.println("Redrawn");
 		validate();
 	} //end of reDO
 	
-	public void setActive(Boolean n) {
+	public synchronized void setActive(Boolean n) {
 		if (n && !active) {
 			reDraw.start();
 		} else {

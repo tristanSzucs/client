@@ -1,9 +1,12 @@
 package client;
 
+import java.awt.EventQueue;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -26,7 +29,7 @@ public class RoomLine extends JPanel
 	 * iName = the name of the room
 	 * number = the amount of people in the room
 	 */
-	public RoomLine (String iName, int number) {
+	public RoomLine (String iName, int number, Client clientFrame) {
 		this.setLayout(new GridLayout(1,3));	//set a grid layout
 		
 		//set up the private variables
@@ -39,7 +42,11 @@ public class RoomLine extends JPanel
 		popLabel.setText("" + pop);	
 		add(nameLabel);
 		add(popLabel);
-		
+		listener = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clientFrame.changeToChatRoom(e.getActionCommand());
+			}
+		};
 		//set up the button
 		button = new JButton("JOIN");
 		button.addActionListener(listener);
@@ -57,7 +64,11 @@ public class RoomLine extends JPanel
 	public void addPop() 
 	{
 		pop++;
-		popLabel.setText("" + pop);
+		EventQueue.invokeLater(new Runnable() {
+		    public void run() {
+		      popLabel.setText("" + pop);
+		    }
+		  });
 	} //end of function
 	
 	/*
@@ -69,7 +80,11 @@ public class RoomLine extends JPanel
 	public void decPop() 
 	{
 		pop--;
-		popLabel.setText("" + pop);
+		EventQueue.invokeLater(new Runnable() {
+		    public void run() {
+		      popLabel.setText("" + pop);
+		    }
+		  });
 	} //end of function
 	
 	

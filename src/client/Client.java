@@ -1,26 +1,74 @@
 package client;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
 
 public class Client extends JFrame
 {
 
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
 	private RoomList listOfRooms = new RoomList(this);
 	private RoomScreen myRoomScreen = new RoomScreen(this, listOfRooms);
-	private LoginScreen myLoginScreen = new LoginScreen(this);
+	private LoginScreen myLoginScreen;
 	private ChatRoom myChatRoom;
+	private Socket mySocket;
 	
-	public Client()
+	public Client() 
 	{
 		super("The Best Chat Room Ever");
 		setSize(800, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
+		
 	
 		
-		add(myLoginScreen.loginPanel);
+		try
+		{
+			Socket mySocket = new Socket("192.168.2.122", 4001);
+			if(mySocket == null)
+			{
+				System.err.println("I am null");
+			}
+			
+			ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
+			System.out.println("outputStream");
+			
+			ObjectInputStream in = new ObjectInputStream(mySocket.getInputStream());
+			System.out.println("inputStream");
+			
+			Listener theListener = new Listener(listOfRooms, this, in);
+			
+			ExecutorService executor = Executors.newCachedThreadPool();
+			executor.execute(theListener);
+			
+			myLoginScreen = new LoginScreen(this, out);
+			System.out.println("loginpanel created");
+			add(myLoginScreen.loginPanel);
+			System.out.println("Added loginpanel");
+			repaint();
+		}
+		catch( UnknownHostException e)
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			
+			e.printStackTrace();
+		}
+		
+		repaint();
+		setVisible(true);
+		
 	}
 	
 	public static void main(String[] args) 
@@ -55,6 +103,11 @@ public class Client extends JFrame
 		remove(myRoomScreen);
 		add(myChatRoom);
 		validate();
+	}
+	
+	public void errorMessage()
+	{
+		myLoginScreen.displayError();
 	}
 
 }

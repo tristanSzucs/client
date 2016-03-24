@@ -4,6 +4,8 @@ package client;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,13 +22,13 @@ public class LoginScreen
 	
 	private JTextField usernameField;
 	private JButton createNewUserButton, loginButton;
-	private JLabel usernameLabel, passwordLabel;
+	private JLabel usernameLabel, passwordLabel, errorLabel;
 	private JPasswordField passwordField;
 	public JPanel loginPanel = new JPanel(), fieldPanel = new JPanel(), buttonPanel = new JPanel();
 	private boolean canCreate, canLogin;
 	
 	//constructor for LoginScreen
-	public LoginScreen(Client client)
+	public LoginScreen(Client client, ObjectOutputStream out)
 	{
 		
 		
@@ -41,6 +43,8 @@ public class LoginScreen
 		//JLabels
 		usernameLabel = new JLabel("Username : ");
 		passwordLabel = new JLabel("Password : ");
+		errorLabel = new JLabel("Incorrect Login");
+		
 		
 		
 		fieldPanel.add(usernameLabel);
@@ -50,6 +54,8 @@ public class LoginScreen
 		
 		buttonPanel.add(createNewUserButton);
 		buttonPanel.add(loginButton);
+		buttonPanel.add(errorLabel);
+		errorLabel.setVisible(false);
 		
 		
 		loginPanel.setLayout(new BorderLayout());
@@ -97,28 +103,27 @@ public class LoginScreen
 						else if(currentAction.getSource() == loginButton)
 						{
 							
+							errorLabel.setVisible(false);
+							
 							String user = usernameField.getText();
 							char[] pass = passwordField.getPassword();
-							//send signal to server with login info
+							String passString = "";
 							
-							//if (server says so)
-							canLogin = true;
-							
-							if(canLogin)
+							for(int i = 0; i < pass.length; i++)
 							{
-								System.out.println("Logged in");
-								client.changeToRoomScreen();
-								
-								
-							}
-							else if(!canLogin)
-							{
-								System.err.println("Incorrect Password");
-								
-								passwordField.setText("");
+								passString += pass[i];
 							}
 							
+							String loginMessage = user + "\t" + passString;
 							
+							System.out.println(loginMessage);
+							
+							try {
+								out.writeObject(loginMessage);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 						else
 						{
@@ -134,8 +139,10 @@ public class LoginScreen
 		
 		
 	}
-	
-	
+	public void displayError()
+	{
+		errorLabel.setVisible(true);
+	}
 	
 
 	

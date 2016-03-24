@@ -94,7 +94,7 @@ public class LoginScreen
 						{
 							
 							String user = usernameField.getText();
-							String pass = passwordField.getText();
+							char[] pass = passwordField.getPassword();
 							//send signal to server with login info
 							
 							//if (server says so)

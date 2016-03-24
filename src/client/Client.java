@@ -26,6 +26,7 @@ public class Client extends JFrame
 	{
 		Client theClient = new Client();
 		
+		
 	}
 	
 	//change current screen to room select screen

@@ -29,6 +29,7 @@ public class LoginScreen
 	public LoginScreen(Client client)
 	{
 		
+		
 		//Buttons
 		createNewUserButton = new JButton("Create New");
 		loginButton = new JButton("Login");

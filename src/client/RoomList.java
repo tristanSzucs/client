@@ -133,7 +133,6 @@ public class RoomList extends JPanel
 			add(cur);
 			cur = cur.next;
 		}
-		System.out.println("Redrawn");
 		validate();
 	} //end of reDO
 	

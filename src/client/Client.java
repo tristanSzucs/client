@@ -10,6 +10,7 @@ public class Client extends JFrame
 	private RoomList listOfRooms = new RoomList(this);
 	private RoomScreen myRoomScreen = new RoomScreen(this, listOfRooms);
 	private LoginScreen myLoginScreen = new LoginScreen(this);
+	private ChatRoom myChatRoom;
 	
 	public Client()
 	{
@@ -41,7 +42,11 @@ public class Client extends JFrame
 	//change current screen to selected chat room screen
 	public void changeToChatRoom(String roomName)
 	{
-		
+		System.out.println("Changed to " + roomName);
+		myChatRoom = new ChatRoom(roomName);
+		remove(myRoomScreen);
+		add(myChatRoom);
+		validate();
 	}
 
 }

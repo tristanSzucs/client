@@ -74,7 +74,7 @@ public class LoginScreen
 							if(canCreate)
 							{
 								String user = usernameField.getText();
-								String pass = passwordField.getText();
+								char[] pass = passwordField.getPassword();
 								
 								User newUser = new User(user, pass);
 								System.out.println("Created...");

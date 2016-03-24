@@ -3,10 +3,10 @@ package client;
 public class User 
 {
 	private String userName;
-	private String password;
+	private char[] password;
 	
 	//user constructor
-	public User(String user, String pass)
+	public User(String user, char[] pass)
 	{
 		this.userName = user;
 		this.password = pass;
@@ -14,7 +14,7 @@ public class User
 	
 	//takes change password request variables
 	//returns empty string on success, error message on failure
-	public String changePassword(String currentPass, String newPass, String repeatedNewPass)
+	public String changePassword(char[] currentPass, char[] newPass, char[] repeatedNewPass)
 	{
 		if(newPass == repeatedNewPass)
 		{
@@ -41,6 +41,6 @@ public class User
 	//returns user's password
 	public String getPassword()
 	{
-		return this.password;
+		return this.password.toString();
 	}
 }

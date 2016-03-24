@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 public class Client extends JFrame
 {
 
-	private RoomList listOfRooms;
+	private RoomList listOfRooms = new RoomList(this);
 	private RoomScreen myRoomScreen = new RoomScreen(this, listOfRooms);
 	private LoginScreen myLoginScreen = new LoginScreen(this);
 	

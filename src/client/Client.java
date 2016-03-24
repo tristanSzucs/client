@@ -36,6 +36,14 @@ public class Client extends JFrame
 		System.out.println("Changed to room screen");
 		myLoginScreen.loginPanel.setVisible(false);
 		remove(myLoginScreen.loginPanel);
+		
+		if(myChatRoom != null)
+		{
+			remove(myChatRoom);
+			repaint();
+		}
+		
+		
 		add(myRoomScreen);
 	}
 	
@@ -43,7 +51,7 @@ public class Client extends JFrame
 	public void changeToChatRoom(String roomName)
 	{
 		System.out.println("Changed to " + roomName);
-		myChatRoom = new ChatRoom(roomName);
+		myChatRoom = new ChatRoom(roomName, this);
 		remove(myRoomScreen);
 		add(myChatRoom);
 		validate();

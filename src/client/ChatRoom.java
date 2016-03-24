@@ -21,10 +21,10 @@ public class ChatRoom extends JPanel
 	private String roomName;
 	private JTextField typeTextBox;
 	private JTextArea chatRoomText;
-	private JButton submitButton = new JButton("Submit");
+	private JButton submitButton = new JButton("Submit"), leaveRoomButton = new JButton("Leave Room");
 	private JPanel chatPanel = new JPanel(), titlePanel = new JPanel(), typePanel = new JPanel();
 	
-	public ChatRoom(String roomName)
+	public ChatRoom(String roomName, Client theClient)
 	{
 		super();
 		this.roomName = roomName;
@@ -39,6 +39,8 @@ public class ChatRoom extends JPanel
 		titlePanel.add(roomLabel, BorderLayout.NORTH);
 		roomLabel.setVisible(true);
 		
+		titlePanel.add(leaveRoomButton);
+		
 		chatRoomText = new JTextArea(10, 10);
 		chatRoomText.setEditable(false);
 		
@@ -49,7 +51,7 @@ public class ChatRoom extends JPanel
 		typePanel.add(typeTextBox, BorderLayout.SOUTH);
 		typePanel.add(submitButton, BorderLayout.SOUTH);
 		
-		ActionListener submitListener = new ActionListener()
+		ActionListener myActionListener = new ActionListener()
 				
 				{
 					@Override
@@ -69,6 +71,10 @@ public class ChatRoom extends JPanel
 								System.err.println("No text to send");
 							}
 						}
+						else if(buttonClick.getSource() == leaveRoomButton)
+						{
+							theClient.changeToRoomScreen();
+						}
 						else
 						{
 							System.err.println("Unknown action performed");
@@ -77,8 +83,8 @@ public class ChatRoom extends JPanel
 					
 				};
 				
-		submitButton.addActionListener(submitListener);
-		
+		submitButton.addActionListener(myActionListener);
+		leaveRoomButton.addActionListener(myActionListener);
 		
 		
 		KeyListener myKeyListener = (new KeyListener()
@@ -113,4 +119,6 @@ public class ChatRoom extends JPanel
 		typeTextBox.addKeyListener(myKeyListener);
 		
 	}
+	
+	
 }

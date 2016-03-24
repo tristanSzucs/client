@@ -1,11 +1,19 @@
 package client;
 
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JApplet;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 
@@ -14,29 +22,44 @@ public class LoginScreen
 {
 
 	
-	private JTextField usernameField, passwordField;
+	private JTextField usernameField;
 	private JButton createNewUserButton, loginButton;
-	public JPanel loginPanel = new JPanel();
+	private JLabel usernameLabel, passwordLabel;
+	private JPasswordField passwordField;
+	public JPanel loginPanel = new JPanel(), fieldPanel = new JPanel(), buttonPanel = new JPanel();
 	private boolean canCreate, canLogin;
 	
 	//constructor for LoginScreen
 	public LoginScreen()
 	{
-		//instantiate Buttons
+		
+		//Buttons
 		createNewUserButton = new JButton("Create New");
 		loginButton = new JButton("Login");
 		
-		//instantiate TextFields
+		//TextField / PasswordField
 		usernameField = new JTextField(15);
-		passwordField = new JTextField(15);
+		passwordField = new JPasswordField(15);
+		
+		//JLabels
+		usernameLabel = new JLabel("Username : ");
+		passwordLabel = new JLabel("Password : ");
 		
 		
+		fieldPanel.add(usernameLabel);
+		fieldPanel.add(usernameField);
+		fieldPanel.add(passwordLabel);
+		fieldPanel.add(passwordField);
+		
+		buttonPanel.add(createNewUserButton);
+		buttonPanel.add(loginButton);
+		
+		
+		loginPanel.setLayout(new BorderLayout());
 		
 		//add following components to loginPanel
-		loginPanel.add(usernameField);
-		loginPanel.add(passwordField);
-		loginPanel.add(createNewUserButton);
-		loginPanel.add(loginButton);
+		loginPanel.add(fieldPanel, BorderLayout.NORTH);
+		loginPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
 		
 		
@@ -107,7 +130,9 @@ public class LoginScreen
 		createNewUserButton.addActionListener(myListener);
 		loginButton.addActionListener(myListener);
 		
+		
 	}
+	
 	
 	
 

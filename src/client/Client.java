@@ -17,8 +17,7 @@ public class Client extends JFrame
 		setSize(800, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		
-		s
+	
 		
 		add(myLoginScreen.loginPanel);
 	}

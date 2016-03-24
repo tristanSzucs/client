@@ -26,7 +26,7 @@ public class LoginScreen
 	private boolean canCreate, canLogin;
 	
 	//constructor for LoginScreen
-	public LoginScreen(JFrame clientFrame)
+	public LoginScreen(Client client)
 	{
 		
 		//Buttons
@@ -56,6 +56,8 @@ public class LoginScreen
 		//add following components to loginPanel
 		loginPanel.add(fieldPanel, BorderLayout.NORTH);
 		loginPanel.add(buttonPanel, BorderLayout.SOUTH);
+		
+		
 		
 		
 		
@@ -104,7 +106,7 @@ public class LoginScreen
 							if(canLogin)
 							{
 								System.out.println("Logged in");
-								loginPanel.setVisible(false);
+								client.changeToRoomScreen();
 								
 								
 							}

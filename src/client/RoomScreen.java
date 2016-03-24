@@ -20,29 +20,18 @@ import javax.swing.JPanel;
 
 public class RoomScreen extends JPanel
 {
-	private RoomList roomList = new RoomList();
+	private RoomList roomList;
 	private JButton newButton;
+	private Client parent;
 	
-	public RoomScreen() {
-		roomList = new RoomList();
+	public RoomScreen(Client client, RoomList list) {
+		roomList = list;
+		parent = client;
 		setLayout(new BorderLayout());
 		add(roomList, BorderLayout.CENTER);
 		newButton = new JButton("New Chat Room");
 		add(newButton, BorderLayout.SOUTH);
 	}
-	
-	public static void main(String args[]) {
-		JFrame x = new JFrame("TEST");
-		x.add(new RoomScreen());
-		x.setVisible(true);
-		x.setSize(1000,1000);
-		x.repaint();
-		x.validate();
-	}
-	
-	
-	
-	
 	
 	
 	

@@ -4,32 +4,42 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-public class Client 
+public class Client extends JFrame
 {
 
-	private JFrame clientFrame;
-	public RoomScreen myRoomScreen = new RoomScreen();
+	private RoomList listOfRooms;
+	private RoomScreen myRoomScreen = new RoomScreen(this, listOfRooms);
+	private LoginScreen myLoginScreen = new LoginScreen(this);
+	
+	public Client()
+	{
+		super("The Best Chat Room Ever");
+		setSize(800, 800);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+		
+		
+		add(myLoginScreen.loginPanel);
+	}
 	
 	public static void main(String[] args) 
 	{
-		//initialize frame title, size, visibility, and close operation
-		JFrame clientFrame = new JFrame("The Best Chat Room Ever");
-		clientFrame.setSize(800, 800);
-		clientFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Client theClient = new Client();
 		
-		//create an object of LoginScreen
-		LoginScreen myLoginScreen = new LoginScreen(clientFrame);
-		
-		
-		
-		//add loginPanel to the frame
-		
-		clientFrame.add(myLoginScreen.loginPanel);
-		myLoginScreen.loginPanel.setVisible(true);
-		
-		
-		clientFrame.setVisible(true);
-		
+	}
+	
+	//change current screen to room select screen
+	public void changeToRoomScreen()
+	{
+		System.out.println("Changed to room screen");
+		myLoginScreen.loginPanel.setVisible(false);
+		remove(myLoginScreen.loginPanel);
+		add(myRoomScreen);
+	}
+	
+	//change current screen to selected chat room screen
+	public void changeToChatRoom(String roomName)
+	{
 		
 	}
 

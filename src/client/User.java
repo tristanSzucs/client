@@ -25,11 +25,8 @@ public class User
 			this.password = newPass;
 			return "";
 		}
-		
 		System.err.println("Error on password change");
 		return "Error on password change";
-		
-		
 	}
 	
 	//returns user's name

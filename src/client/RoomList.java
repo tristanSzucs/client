@@ -1,0 +1,145 @@
+package client;
+
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+
+public class RoomList extends JPanel 
+{
+	private RoomLine first;
+	private Boolean active = true;
+	private Timer reDraw = new Timer(2000, new ActionListener() {
+		public void actionPerformed(ActionEvent evt) {
+			//System.out.printf("HI\n");
+			addRoom("TEST",4);
+	         reDo();
+	      }
+	});
+	//the constructor
+	public RoomList() {
+		this.setLayout(new GridLayout(10,1));
+		this.setVisible(true);
+		this.addRoom("Fire", 0);
+		this.addRoom("Fire", 0);
+		
+		this.addRoom("Fire", 0);
+		this.addRoom("Fire", 0);
+		reDraw.start();
+		reDo();
+		
+	}
+	
+	/*
+	 * Adds a room based on Init pop and name
+	 */
+	public void addRoom(String name, int pop) {
+		//creates the room to add
+		RoomLine toAdd = new RoomLine(name, pop);
+		//adds it to the GUI
+		
+		//if the list is empty make it the first
+		if(first == null) {
+			first = toAdd;
+			return;
+		}
+		
+		//otherwise go through and add it to the end
+		RoomLine cur = first;
+		//go to the end
+		while(cur.next != null) cur = cur.next;
+		//add it
+		cur.next = toAdd;
+	}
+	
+	/*
+	 * This method removes the room based on the name
+	 */
+	public void RemoveRoom(String name) {
+		//if there is none then nothing happens
+		if(first == null) {
+			return;
+		}
+		//if it is the first element
+		if(first.getName() == name) {
+			first = first.next; //removes from list
+		}
+		
+		//start at top
+		RoomLine cur = first;
+		//while there is more and the next is not the one we need then keep moving
+		while(cur.next != null && cur.next.getName() != name) cur = cur.next;
+		if (cur.next == null) return; //if the case was that there is no more then end
+		//otherwise the next is to be removed
+		
+		
+		cur.next = cur.next.next;	//removes from list
+	} //end of method
+	
+	/*
+	 * THis method takes in a string name and adds a pop to it
+	 */
+	public void AddPopRoom(String name) {
+		//if it is empty then return
+		if(first == null) {
+			return;
+		}
+	
+		//go through the rest of the list
+		RoomLine cur = first;  //set the curent to the first
+		
+		//while we are not at null and this is not the one we are looking for
+		while(cur != null && cur.getName() != name)	cur = cur.next;  
+		//if case was there is no more 
+		if (cur == null) return;
+		cur.addPop();
+	} //end of method
+	
+	
+	/*
+	 * This method removes this line if a room by the name is found
+	 * If not found it is not removed.
+	 */
+	public void RemovePopRoom(String name) {
+		//if it is empty then return
+		if(first == null) {
+			return;
+		}
+	
+		//go through the rest of the list
+		RoomLine cur = first;  //set the curent to the first
+		
+		//while we are not at null and this is not the one we are looking for
+		while(cur != null && cur.getName() != name)	cur = cur.next;  
+		//if case was there is no more 
+		if (cur == null) return;
+		cur.decPop();
+	} //end of method
+	
+	/*
+	 * This function removes all lines and puts them back on.
+	 */
+	public void reDo() {
+		removeAll();
+		RoomLine cur = first;
+		while(cur != null) {
+			add(cur);
+			cur = cur.next;
+		}
+		System.out.println("Redrawn");
+		validate();
+	} //end of reDO
+	
+	public void setActive(Boolean n) {
+		if (n && !active) {
+			reDraw.start();
+		} else {
+			reDraw.stop();
+		}
+	}
+	
+} //end of RoomList

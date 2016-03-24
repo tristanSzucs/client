@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -25,7 +26,7 @@ public class LoginScreen
 	private boolean canCreate, canLogin;
 	
 	//constructor for LoginScreen
-	public LoginScreen()
+	public LoginScreen(JFrame clientFrame)
 	{
 		
 		//Buttons
@@ -103,6 +104,9 @@ public class LoginScreen
 							if(canLogin)
 							{
 								System.out.println("Logged in");
+								loginPanel.setVisible(false);
+								
+								
 							}
 							else if(!canLogin)
 							{

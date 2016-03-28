@@ -15,8 +15,6 @@ public class RoomList extends JPanel
 	private Boolean active = true;
 	private Timer reDraw = new Timer(2000, new ActionListener() {
 		public void actionPerformed(ActionEvent evt) {
-			//System.out.printf("HI\n");
-			addRoom("TEST",4);
 	         reDo();
 	      }
 	});
@@ -28,10 +26,7 @@ public class RoomList extends JPanel
 		this.setLayout(new GridLayout(10,1));
 		this.setVisible(true);
 		this.addRoom("Fire", 0);
-		this.addRoom("Fire", 0);
-		this.AddPopRoom("Fire");
-		this.addRoom("Fire", 0);
-		this.addRoom("Fire", 0);
+		this.addRoom("Test", 0);
 		reDraw.start();
 		reDo();
 		
@@ -96,10 +91,11 @@ public class RoomList extends JPanel
 		RoomLine cur = first;  //set the curent to the first
 		
 		//while we are not at null and this is not the one we are looking for
-		while(cur != null && cur.getName() != name)	cur = cur.next;  
-		//if case was there is no more 
-		if (cur == null) return;
-		cur.addPop();
+		while(cur.next != null && cur.getName() != name)	cur = cur.next;  
+		//if we are on the right one
+		if (cur.getName().equals(name)) cur.addPop();
+		else cur.next = new RoomLine(name,1, client);
+		
 	} //end of method
 	
 	

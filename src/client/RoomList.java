@@ -30,59 +30,16 @@ public class RoomList extends JPanel
 		
 	}
 	
-	/*
-	 * Adds a room based on Init pop and name
-	 */
-	public synchronized void addRoom(String name, int pop) {
-		//creates the room to add
-		RoomLine toAdd = new RoomLine(name, pop, client);
-		//adds it to the GUI
-		
-		//if the list is empty make it the first
-		if(first == null) {
-			first = toAdd;
-			return;
-		}
-		
-		//otherwise go through and add it to the end
-		RoomLine cur = first;
-		//go to the end
-		while(cur.next != null) cur = cur.next;
-		//add it
-		cur.next = toAdd;
-	}
 	
-	/*
-	 * This method removes the room based on the name
-	 */
-	public synchronized void RemoveRoom(String name) {
-		//if there is none then nothing happens
-		if(first == null) {
-			return;
-		}
-		//if it is the first element
-		if(first.getName() == name) {
-			first = first.next; //removes from list
-		}
-		
-		//start at top
-		RoomLine cur = first;
-		//while there is more and the next is not the one we need then keep moving
-		while(cur.next != null && cur.next.getName() != name) cur = cur.next;
-		if (cur.next == null) return; //if the case was that there is no more then end
-		//otherwise the next is to be removed
-		
-		
-		cur.next = cur.next.next;	//removes from list
-	} //end of method
+	
 	
 	/*
 	 * THis method takes in a string name and adds a pop to it
 	 */
 	public synchronized void AddPopRoom(String name) {
-		//if it is empty then return
+		//if it is empty then add the room then return
 		if(first == null) {
-			addRoom(name,1);
+			first = new RoomLine(name, 1, client);
 			return;
 		}
 	
@@ -147,6 +104,8 @@ public class RoomList extends JPanel
 		repaint();
 	} //end of reDO
 	
+	
+	//determines if the timer continues to run and is called when exiting and leaving the screen
 	public synchronized void setActive(Boolean n) {
 		if (n && !active) {
 			reDraw.start();

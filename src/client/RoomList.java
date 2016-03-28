@@ -15,6 +15,7 @@ public class RoomList extends JPanel
 	private Timer reDraw = new Timer(2000, new ActionListener() {
 		public void actionPerformed(ActionEvent evt) {
 	         reDo();
+	         reDraw.restart();
 	      }
 	});
 	
@@ -143,14 +144,16 @@ public class RoomList extends JPanel
 			cur = cur.next;
 		}
 		validate();
+		System.out.println("redid");
 	} //end of reDO
 	
 	public synchronized void setActive(Boolean n) {
 		if (n && !active) {
 			reDraw.start();
-		} else {
+		} else if(n == false) {
 			reDraw.stop();
 		}
+		active = n;
 	}
 	
 } //end of RoomList

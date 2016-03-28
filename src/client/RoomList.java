@@ -144,7 +144,7 @@ public class RoomList extends JPanel
 			cur = cur.next;
 		}
 		validate();
-		System.out.println("redid");
+		repaint();
 	} //end of reDO
 	
 	public synchronized void setActive(Boolean n) {

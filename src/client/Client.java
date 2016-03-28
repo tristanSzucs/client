@@ -99,6 +99,7 @@ public class Client extends JFrame
 				
 				
 				add(myRoomScreen);
+				listOfRooms.setActive(true);
 			}
 			
 		});
@@ -114,10 +115,12 @@ public class Client extends JFrame
 		add(myChatRoom);
 		validate();
 		
-		try {
+		try 
+		{
 			out.writeObject("7\t" + roomName);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
 	}
@@ -129,7 +132,10 @@ public class Client extends JFrame
 	
 	public void updateChatRoom(String newText)
 	{
-		myChatRoom.update(newText);
+		if(myChatRoom != null)
+		{
+			myChatRoom.update(newText);
+		}
 	}
 
 }

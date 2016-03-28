@@ -3,7 +3,6 @@ package client;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -25,8 +24,6 @@ public class RoomList extends JPanel
 		client = clientFrame;
 		this.setLayout(new GridLayout(10,1));
 		this.setVisible(true);
-		this.addRoom("Fire", 0);
-		this.addRoom("Test", 0);
 		reDraw.start();
 		reDo();
 		

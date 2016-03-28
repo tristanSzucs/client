@@ -147,6 +147,8 @@ public class RoomList extends JPanel
 		repaint();
 	} //end of reDO
 	
+	
+	//determines if the timer continues to run and is called when exiting and leaving the screen
 	public synchronized void setActive(Boolean n) {
 		if (n && !active) {
 			reDraw.start();

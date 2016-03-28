@@ -82,6 +82,12 @@ public class ChatRoom extends JPanel
 						}
 						else if(buttonClick.getSource() == leaveRoomButton)
 						{
+							try {
+								output.writeObject("8");
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 							theClient.changeToRoomScreen();
 						}
 						else

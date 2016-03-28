@@ -113,6 +113,13 @@ public class Client extends JFrame
 		remove(myRoomScreen);
 		add(myChatRoom);
 		validate();
+		
+		try {
+			out.writeObject("7\t" + roomName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void errorMessage()

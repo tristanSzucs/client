@@ -35,6 +35,8 @@ public class RoomScreen extends JPanel
 		roomList = list;
 		parent = client;
 		
+		setLayout(new BorderLayout());
+		
 		//add list of rooms to the screen
 		add(roomList, BorderLayout.CENTER);
 		

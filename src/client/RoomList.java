@@ -114,7 +114,7 @@ public class RoomList extends JPanel
 		RoomLine cur = first;  //set the curent to the first
 		
 		//while we are not at null and this is not the one we are looking for
-		while(cur != null && cur.getName() != name)	cur = cur.next;  
+		while(cur != null && !cur.getName().equals( name ))	cur = cur.next;  
 		//if case was there is no more 
 		if (cur == null) return;
 		cur.decPop();

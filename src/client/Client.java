@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 public class Client extends JFrame
 {
@@ -39,11 +40,13 @@ public class Client extends JFrame
 				System.err.println("I am null");
 			}
 			
-			ObjectOutputStream out = new ObjectOutputStream(mySocket.getOutputStream());
+			out = new ObjectOutputStream(mySocket.getOutputStream());
 			System.out.println("outputStream");
+			out.flush();
 			
-			ObjectInputStream in = new ObjectInputStream(mySocket.getInputStream());
+			in = new ObjectInputStream(mySocket.getInputStream());
 			System.out.println("inputStream");
+			
 			
 			Listener theListener = new Listener(listOfRooms, this, in);
 			
@@ -62,7 +65,6 @@ public class Client extends JFrame
 		} 
 		catch (IOException e) 
 		{
-			
 			e.printStackTrace();
 		}
 		
@@ -74,32 +76,40 @@ public class Client extends JFrame
 	public static void main(String[] args) 
 	{
 		Client theClient = new Client();
-		
-		
 	}
 	
 	//change current screen to room select screen
 	public void changeToRoomScreen()
 	{
-		System.out.println("Changed to room screen");
-		myLoginScreen.loginPanel.setVisible(false);
-		remove(myLoginScreen.loginPanel);
 		
-		if(myChatRoom != null)
+		SwingUtilities.invokeLater(new Runnable() 
 		{
-			remove(myChatRoom);
-			repaint();
-		}
+			
+			public void run()
+			{
+				System.out.println("Changed to room screen");
+				myLoginScreen.loginPanel.setVisible(false);
+				remove(myLoginScreen.loginPanel);
+				
+				if(myChatRoom != null)
+				{
+					remove(myChatRoom);
+					repaint();
+				}
+				
+				
+				add(myRoomScreen);
+			}
+			
+		});
 		
-		
-		add(myRoomScreen);
 	}
 	
 	//change current screen to selected chat room screen
 	public void changeToChatRoom(String roomName)
 	{
 		System.out.println("Changed to " + roomName);
-		myChatRoom = new ChatRoom(roomName, this);
+		myChatRoom = new ChatRoom(roomName, this, out);
 		remove(myRoomScreen);
 		add(myChatRoom);
 		validate();
@@ -108,6 +118,11 @@ public class Client extends JFrame
 	public void errorMessage()
 	{
 		myLoginScreen.displayError();
+	}
+	
+	public void updateChatRoom(String newText)
+	{
+		myChatRoom.update(newText);
 	}
 
 }

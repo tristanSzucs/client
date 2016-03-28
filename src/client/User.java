@@ -12,23 +12,6 @@ public class User
 		this.password = pass;
 	}
 	
-	//takes change password request variables
-	//returns empty string on success, error message on failure
-	public String changePassword(char[] currentPass, char[] newPass, char[] repeatedNewPass)
-	{
-		if(newPass == repeatedNewPass)
-		{
-			System.out.println("Password change successful");
-			
-			//send signal to server for official password change
-			
-			this.password = newPass;
-			return "";
-		}
-		System.err.println("Error on password change");
-		return "Error on password change";
-	}
-	
 	//returns user's name
 	public String getUserName()
 	{

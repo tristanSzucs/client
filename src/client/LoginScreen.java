@@ -2,8 +2,11 @@ package client;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
@@ -21,7 +24,7 @@ public class LoginScreen
 
 	
 	private JTextField usernameField;
-	private JButton createNewUserButton, loginButton;
+	private JButton loginButton;
 	private JLabel usernameLabel, passwordLabel, errorLabel;
 	private JPasswordField passwordField;
 	public JPanel loginPanel = new JPanel(), fieldPanel = new JPanel(), buttonPanel = new JPanel();
@@ -32,8 +35,7 @@ public class LoginScreen
 	{
 		
 		
-		//Buttons
-		createNewUserButton = new JButton("Create New");
+		//Button
 		loginButton = new JButton("Login");
 		
 		//TextField / PasswordField
@@ -43,7 +45,7 @@ public class LoginScreen
 		//JLabels
 		usernameLabel = new JLabel("Username : ");
 		passwordLabel = new JLabel("Password : ");
-		errorLabel = new JLabel("Incorrect Login");
+		errorLabel = new JLabel("Incorrect Login - Please try again");
 		
 		
 		
@@ -52,9 +54,9 @@ public class LoginScreen
 		fieldPanel.add(passwordLabel);
 		fieldPanel.add(passwordField);
 		
-		buttonPanel.add(createNewUserButton);
 		buttonPanel.add(loginButton);
-		buttonPanel.add(errorLabel);
+		buttonPanel.add(errorLabel, BorderLayout.CENTER);
+		errorLabel.setForeground(Color.RED);
 		errorLabel.setVisible(false);
 		
 		
@@ -75,32 +77,7 @@ public class LoginScreen
 					@Override
 					public void actionPerformed(ActionEvent currentAction) 
 					{
-						if(currentAction.getSource() == createNewUserButton)
-						{
-							
-							//if (server says so)
-							canCreate = true;
-							
-							if(canCreate)
-							{
-								String user = usernameField.getText();
-								char[] pass = passwordField.getPassword();
-								
-								User newUser = new User(user, pass);
-								System.out.println("Created...");
-								System.out.printf("User: %s \nPass: %s\n", newUser.getUserName(), newUser.getPassword());
-							}
-							else if(!canCreate)
-							{
-								System.err.println("Create Error");
-								
-								usernameField.setText("");
-								passwordField.setText("");
-							}
-							
-							
-						}
-						else if(currentAction.getSource() == loginButton)
+						if(currentAction.getSource() == loginButton)
 						{
 							
 							errorLabel.setVisible(false);
@@ -118,10 +95,12 @@ public class LoginScreen
 							
 							System.out.println(loginMessage);
 							
-							try {
+							try 
+							{
 								out.writeObject(loginMessage);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
+							} 
+							catch (IOException e) 
+							{
 								e.printStackTrace();
 							}
 						}
@@ -133,12 +112,65 @@ public class LoginScreen
 			
 				};
 		
-		//associate myListener to appropriate buttons
-		createNewUserButton.addActionListener(myListener);
+		//associate myListener to appropriate button
 		loginButton.addActionListener(myListener);
 		
+KeyListener myKeyListener = (new KeyListener()
+		
+		{
+			@Override
+			public void keyPressed(KeyEvent myEvent) 
+			{
+				if(myEvent.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					{
+						
+						errorLabel.setVisible(false);
+						
+						String user = usernameField.getText();
+						char[] pass = passwordField.getPassword();
+						String passString = "";
+						
+						for(int i = 0; i < pass.length; i++)
+						{
+							passString += pass[i];
+						}
+						
+						String loginMessage = user + "\t" + passString;
+						
+						System.out.println(loginMessage);
+						
+						try 
+						{
+							out.writeObject(loginMessage);
+						} 
+						catch (IOException e) 
+						{
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent myEvent) 
+			{
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent myEvent) 
+			{
+				
+			}
+					
+		});		
+		
+		usernameField.addKeyListener(myKeyListener);
+		passwordField.addKeyListener(myKeyListener);
 		
 	}
+
 	public void displayError()
 	{
 		errorLabel.setVisible(true);

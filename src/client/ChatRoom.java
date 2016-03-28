@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class ChatRoom extends JPanel
 {
@@ -22,34 +25,36 @@ public class ChatRoom extends JPanel
 	private JTextField typeTextBox;
 	private JTextArea chatRoomText;
 	private JButton submitButton = new JButton("Submit"), leaveRoomButton = new JButton("Leave Room");
-	private JPanel chatPanel = new JPanel(), titlePanel = new JPanel(), typePanel = new JPanel();
 	
-	public ChatRoom(String roomName, Client theClient)
+	public ChatRoom(String roomName, Client theClient, ObjectOutputStream output)
 	{
 		super();
 		this.roomName = roomName;
 		
-		add(titlePanel, BorderLayout.NORTH);
-		
-		add(chatPanel, BorderLayout.CENTER);
-		
-		add(typePanel, BorderLayout.SOUTH);
-		
-		JLabel roomLabel = new JLabel(roomName);
-		titlePanel.add(roomLabel, BorderLayout.NORTH);
-		roomLabel.setVisible(true);
-		
-		titlePanel.add(leaveRoomButton);
+		setLayout(null);
+		setVisible(true);
 		
 		chatRoomText = new JTextArea(10, 10);
 		chatRoomText.setEditable(false);
-		
-		chatPanel.add(new JScrollPane(chatRoomText), BorderLayout.CENTER);
-		
-		
 		typeTextBox = new JTextField(30);
-		typePanel.add(typeTextBox, BorderLayout.SOUTH);
-		typePanel.add(submitButton, BorderLayout.SOUTH);
+		
+		submitButton.setBounds(600, 700, 100, 20);
+		add(submitButton);
+		
+		chatRoomText.setBounds(0, 50, 800, 500);
+		add(chatRoomText);
+		
+		typeTextBox.setBounds(0, 700, 600, 20);
+		add(typeTextBox);
+		
+		leaveRoomButton.setBounds(0, 0, 150, 20);
+		add(leaveRoomButton);
+		
+		JLabel roomLabel = new JLabel(roomName);
+		roomLabel.setBounds(350, 0, 100, 50);
+		add(roomLabel);
+		roomLabel.setVisible(true);
+		
 		
 		ActionListener myActionListener = new ActionListener()
 				
@@ -62,8 +67,12 @@ public class ChatRoom extends JPanel
 							if(!typeTextBox.getText().isEmpty())
 							{
 								System.out.println("You typed: " + typeTextBox.getText());
-								String previousText = chatRoomText.getText();
-								chatRoomText.setText(previousText + "\n" + typeTextBox.getText());
+								try {
+									output.writeObject("0\t" + typeTextBox.getText());
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 								typeTextBox.setText("");
 							}
 							else
@@ -96,8 +105,14 @@ public class ChatRoom extends JPanel
 				if(myEvent.getKeyCode() == KeyEvent.VK_ENTER && !typeTextBox.getText().isEmpty())
 				{
 					System.out.println("You typed: " + typeTextBox.getText());
-					String previousText = chatRoomText.getText();
-					chatRoomText.setText(previousText + "\n" + typeTextBox.getText());
+					
+					try {
+						output.writeObject("0\t" + typeTextBox.getText());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 					typeTextBox.setText("");
 				}
 			}
@@ -118,7 +133,20 @@ public class ChatRoom extends JPanel
 		
 		typeTextBox.addKeyListener(myKeyListener);
 		
+		
+		
 	}
 	
+	//update chatRoomText with newly entered text
+	public void update(String newText)
+	{
+		SwingUtilities.invokeLater(new Runnable() 
+		{
+			public void run()
+			{
+				chatRoomText.append(newText + "\n");
+			}
+		});
+	}
 	
 }

@@ -84,6 +84,7 @@ public class RoomList extends JPanel
 	public synchronized void AddPopRoom(String name) {
 		//if it is empty then return
 		if(first == null) {
+			addRoom(name,1);
 			return;
 		}
 	
@@ -91,7 +92,7 @@ public class RoomList extends JPanel
 		RoomLine cur = first;  //set the curent to the first
 		
 		//while we are not at null and this is not the one we are looking for
-		while(cur.next != null && cur.getName() != name)	cur = cur.next;  
+		while(cur.next != null && !cur.getName().equals( name ))	cur = cur.next;  
 		//if we are on the right one
 		if (cur.getName().equals(name)) cur.addPop();
 		else cur.next = new RoomLine(name,1, client);

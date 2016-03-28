@@ -67,13 +67,20 @@ public class Listener implements Runnable
 			
 			messageType = Integer.parseInt(parts[0]);
 			
+			//handle text message sent from the server
 			if(messageType == 0)
 			{
 				client.updateChatRoom(parts[1]);
 			}
+			//handle population increase message from the server
 			else if(messageType == 1)
 			{
-				
+				roomList.AddPopRoom(parts[1]);
+			}
+			//handle population decrease message from the server
+			else if(messageType == 2)
+			{
+				roomList.RemovePopRoom(parts[1]);
 			}
 		}
 	}

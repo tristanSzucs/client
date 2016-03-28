@@ -26,17 +26,19 @@ import javax.swing.JTextField;
 public class RoomScreen extends JPanel
 {
 	private RoomList roomList;
-	private JButton newButton, createButton, cancelButton;
+	private JButton newButton;
 	private Client parent;
-	private JTextField roomNameSelect;
-	private JDialog customDialog;
 	
+	//RoomScreen constructor
 	public RoomScreen(Client client, RoomList list) 
 	{
 		roomList = list;
 		parent = client;
-		setLayout(new BorderLayout());
+		
+		//add list of rooms to the screen
 		add(roomList, BorderLayout.CENTER);
+		
+		//create and add button to the screen
 		newButton = new JButton("New Chat Room");
 		add(newButton, BorderLayout.SOUTH);
 		

@@ -109,15 +109,30 @@ public class RoomList extends JPanel
 		if(first == null) {
 			return;
 		}
-	
+		if (first.getName().equals(name) ) {
+			first.decPop();
+			if (first.getPop() == 0) {
+				first = first.next;
+			}
+			return;
+		}
 		//go through the rest of the list
 		RoomLine cur = first;  //set the curent to the first
 		
+		
+		
+		
 		//while we are not at null and this is not the one we are looking for
-		while(cur != null && !cur.getName().equals( name ))	cur = cur.next;  
-		//if case was there is no more 
-		if (cur == null) return;
-		cur.decPop();
+		while(cur.next != null && !cur.next.getName().equals( name ))	cur = cur.next; 
+		
+		if( cur.next != null && cur.next.getName().equals( name ) ) {
+			cur.next.decPop();
+			if (cur.next.getPop() == 0) {
+				cur.next = cur.next.next;
+			}
+		}			
+		
+		
 	} //end of method
 	
 	/*

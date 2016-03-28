@@ -102,5 +102,10 @@ public class RoomLine extends JPanel
 	public void setNext(RoomLine n) {
 		next = n;
 	}
+	
+	//a method to get the pop
+	public int getPop() {
+		return pop;
+	}
 } //end of class RoomLine
 

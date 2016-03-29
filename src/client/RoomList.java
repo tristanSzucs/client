@@ -12,11 +12,13 @@ public class RoomList extends JPanel
 	private Client client;
 	private RoomLine first;
 	private Boolean active = true;
-	private Timer reDraw = new Timer(2000, new ActionListener() {
-		public void actionPerformed(ActionEvent evt) {
+	private Timer reDraw = new Timer(2000, new ActionListener() 
+	{
+		public void actionPerformed(ActionEvent evt) 
+		{
 	         reDo();
 	         reDraw.restart();
-	      }
+	    }
 	});
 	
 	
@@ -34,7 +36,7 @@ public class RoomList extends JPanel
 	
 	
 	/*
-	 * THis method takes in a string name and adds a pop to it
+	 * This method takes in a string name and adds a pop to it
 	 */
 	public synchronized void AddPopRoom(String name) {
 		//if it is empty then add the room then return
@@ -44,7 +46,7 @@ public class RoomList extends JPanel
 		}
 	
 		//go through the rest of the list
-		RoomLine cur = first;  //set the curent to the first
+		RoomLine cur = first;  //set the current to the first
 		
 		//while we are not at null and this is not the one we are looking for
 		while(cur.next != null && !cur.getName().equals( name ))	cur = cur.next;  
@@ -72,7 +74,7 @@ public class RoomList extends JPanel
 			return;
 		}
 		//go through the rest of the list
-		RoomLine cur = first;  //set the curent to the first
+		RoomLine cur = first;  //set the current to the first
 		
 		
 		

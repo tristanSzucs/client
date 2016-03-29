@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -28,26 +27,21 @@ public class LoginScreen
 	private JLabel usernameLabel, passwordLabel, errorLabel;
 	private JPasswordField passwordField;
 	public JPanel loginPanel = new JPanel(), fieldPanel = new JPanel(), buttonPanel = new JPanel();
-	private boolean canCreate, canLogin;
 	
-	//constructor for LoginScreen
+	//2variable constructor for LoginScreen object
 	public LoginScreen(Client client, ObjectOutputStream out)
 	{
 		
 		
-		//Button
+		//create and add GUI elements
 		loginButton = new JButton("Login");
 		
-		//TextField / PasswordField
 		usernameField = new JTextField(15);
 		passwordField = new JPasswordField(15);
 		
-		//JLabels
 		usernameLabel = new JLabel("Username : ");
 		passwordLabel = new JLabel("Password : ");
 		errorLabel = new JLabel("Incorrect Login - Please try again");
-		
-		
 		
 		fieldPanel.add(usernameLabel);
 		fieldPanel.add(usernameField);
@@ -59,33 +53,29 @@ public class LoginScreen
 		errorLabel.setForeground(Color.RED);
 		errorLabel.setVisible(false);
 		
-		
 		loginPanel.setLayout(new BorderLayout());
 		
-		//add following components to loginPanel
 		loginPanel.add(fieldPanel, BorderLayout.NORTH);
 		loginPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
-		
-		
-		
-		
-		//define myListener
+		//create and define ActionListener object
 		ActionListener myListener = new ActionListener()
 				{
 
 					@Override
 					public void actionPerformed(ActionEvent currentAction) 
 					{
+						//if loginButton is pressed
 						if(currentAction.getSource() == loginButton)
 						{
 							
 							errorLabel.setVisible(false);
 							
-							String user = usernameField.getText();
-							char[] pass = passwordField.getPassword();
+							String user = usernameField.getText(); //retrieve entered user name
+							char[] pass = passwordField.getPassword(); //retrieve entered password
 							String passString = "";
 							
+							//convert password to a String
 							for(int i = 0; i < pass.length; i++)
 							{
 								passString += pass[i];
@@ -93,11 +83,10 @@ public class LoginScreen
 							
 							String loginMessage = user + "\t" + passString;
 							
-							System.out.println(loginMessage);
 							
 							try 
 							{
-								out.writeObject(loginMessage);
+								out.writeObject(loginMessage); //send loginMessage (user and pass) to server
 							} 
 							catch (IOException e) 
 							{
@@ -115,12 +104,14 @@ public class LoginScreen
 		//associate myListener to appropriate button
 		loginButton.addActionListener(myListener);
 		
-KeyListener myKeyListener = (new KeyListener()
+		//create and define KeyListener object
+		KeyListener myKeyListener = (new KeyListener()
 		
 		{
 			@Override
 			public void keyPressed(KeyEvent myEvent) 
 			{
+				//if user presses <ENTER> on keyboard
 				if(myEvent.getKeyCode() == KeyEvent.VK_ENTER)
 				{
 					{
@@ -131,6 +122,7 @@ KeyListener myKeyListener = (new KeyListener()
 						char[] pass = passwordField.getPassword();
 						String passString = "";
 						
+						//convert password to a String
 						for(int i = 0; i < pass.length; i++)
 						{
 							passString += pass[i];
@@ -138,11 +130,9 @@ KeyListener myKeyListener = (new KeyListener()
 						
 						String loginMessage = user + "\t" + passString;
 						
-						System.out.println(loginMessage);
-						
 						try 
 						{
-							out.writeObject(loginMessage);
+							out.writeObject(loginMessage);  //send loginMessage (user and pass) to server
 						} 
 						catch (IOException e) 
 						{
@@ -166,17 +156,20 @@ KeyListener myKeyListener = (new KeyListener()
 					
 		});		
 		
+		//add KeyListener to desired components
 		usernameField.addKeyListener(myKeyListener);
 		passwordField.addKeyListener(myKeyListener);
 		
-	}
+	}// end of constructor
 
+	//display login error message
 	public void displayError()
 	{
 		errorLabel.setVisible(true);
+		
 	}
 	
 
 	
 
-}
+}//end of LoginScreen

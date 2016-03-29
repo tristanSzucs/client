@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -29,7 +28,8 @@ public class RoomLine extends JPanel
 	 * iName = the name of the room
 	 * number = the amount of people in the room
 	 */
-	public RoomLine (String iName, int number, Client clientFrame) {
+	public RoomLine (String iName, int number, Client clientFrame) 
+	{
 		this.setLayout(new GridLayout(1,3));	//set a grid layout
 		
 		//set up the private variables

@@ -1,18 +1,12 @@
 package client;
 
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 
 
@@ -45,21 +39,23 @@ public class RoomScreen extends JPanel
 		add(newButton, BorderLayout.SOUTH);
 		
 		
-		
+		//create and define ActionListener object
 		ActionListener myActionListener = new ActionListener()
 		
 		{
 			@Override
 			public void actionPerformed(ActionEvent buttonClick) 
 			{
+				//if newButton is clicked
 				if(buttonClick.getSource() == newButton)
 				{
-					System.out.println("creating new room");
+					//display option pane for user input
 					String newRoomName = (String) JOptionPane.showInputDialog(parent, "type room name", null, JOptionPane.QUESTION_MESSAGE, null, null, "");
 					
+					//if the new room name is not null, and is not an empty String
 					if(newRoomName != null && !newRoomName.matches(""))
 					{
-						parent.changeToChatRoom(newRoomName);
+						parent.changeToChatRoom(newRoomName); //call the client function to change to that chat room
 					}
 					
 				}
@@ -71,6 +67,7 @@ public class RoomScreen extends JPanel
 			
 		};
 		
+		//add the ActionListener to desired component
 		newButton.addActionListener(myActionListener);
 	}
 	

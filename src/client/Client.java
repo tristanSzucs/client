@@ -1,10 +1,8 @@
 package client;
 
-import java.awt.BorderLayout;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
@@ -22,41 +20,31 @@ public class Client extends JFrame
 	private RoomScreen myRoomScreen = new RoomScreen(this, listOfRooms);
 	private LoginScreen myLoginScreen;
 	private ChatRoom myChatRoom;
-	private Socket mySocket;
 	
 	public Client() 
 	{
+		//create and initialize our JFrame
 		super("The Best Chat Room Ever");
 		setSize(800, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-	
-		
 		try
 		{
-			Socket mySocket = new Socket("192.168.2.122", 4001);
-			if(mySocket == null)
-			{
-				System.err.println("I am null");
-			}
+			Socket mySocket = new Socket("127.0.0.1", 4001); //create a socket for I/O
 			
-			out = new ObjectOutputStream(mySocket.getOutputStream());
-			System.out.println("outputStream");
+			out = new ObjectOutputStream(mySocket.getOutputStream()); //get output stream
 			out.flush();
 			
-			in = new ObjectInputStream(mySocket.getInputStream());
-			System.out.println("inputStream");
+			in = new ObjectInputStream(mySocket.getInputStream()); //get input stream
 			
-			
-			Listener theListener = new Listener(listOfRooms, this, in);
+			//create object of type Listener for client/server communication
+			Listener theListener = new Listener(listOfRooms, this, in); 
 			
 			ExecutorService executor = Executors.newCachedThreadPool();
-			executor.execute(theListener);
+			executor.execute(theListener); //execute Listener as Runnable
 			
 			myLoginScreen = new LoginScreen(this, out);
-			System.out.println("loginpanel created");
 			add(myLoginScreen.loginPanel);
-			System.out.println("Added loginpanel");
 			repaint();
 		}
 		catch( UnknownHostException e)
@@ -87,19 +75,23 @@ public class Client extends JFrame
 			
 			public void run()
 			{
-				System.out.println("Changed to room screen");
-				myLoginScreen.loginPanel.setVisible(false);
-				remove(myLoginScreen.loginPanel);
+				//if on the login screen
+				if(myLoginScreen.loginPanel != null)
+				{
+					myLoginScreen.loginPanel.setVisible(false);
+					remove(myLoginScreen.loginPanel); //remove loginPanel
+				}
 				
+				//if in a chat room
 				if(myChatRoom != null)
 				{
-					remove(myChatRoom);
+					remove(myChatRoom); //remove myChatRoom
 					repaint();
 				}
 				
 				
-				add(myRoomScreen);
-				listOfRooms.setActive(true);
+				add(myRoomScreen); //open myRoomScreen
+				listOfRooms.setActive(true); //display the list of rooms
 			}
 			
 		});
@@ -109,15 +101,14 @@ public class Client extends JFrame
 	//change current screen to selected chat room screen
 	public void changeToChatRoom(String roomName)
 	{
-		System.out.println("Changed to " + roomName);
-		myChatRoom = new ChatRoom(roomName, this, out);
-		remove(myRoomScreen);
-		add(myChatRoom);
+		myChatRoom = new ChatRoom(roomName, this, out); //change to selected chat room
+		remove(myRoomScreen);  //remove the list of rooms screen
+		add(myChatRoom); //add the new chat room to the frame
 		validate();
 		
 		try 
 		{
-			out.writeObject("7\t" + roomName);
+			out.writeObject("7\t" + roomName); //output to server that we have entered a room
 		} 
 		catch (IOException e) 
 		{
@@ -125,16 +116,18 @@ public class Client extends JFrame
 		}
 	}
 	
+	//will display login error on login screen 
 	public void errorMessage()
 	{
 		myLoginScreen.displayError();
 	}
 	
+	//updates the chat room with new text
 	public void updateChatRoom(String newText)
 	{
 		if(myChatRoom != null)
 		{
-			myChatRoom.update(newText);
+			myChatRoom.update(newText);  //will update and append the new text to the chat room
 		}
 	}
 
